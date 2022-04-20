@@ -71,18 +71,18 @@ class NASShareSerializer(NetBoxModelSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='plugins-api:netbox_nas-api:nasshare-detail'
     )
-    volume = NestedNASVolumeSerializer
+    nas_volume = NestedNASVolumeSerializer
 
     class Meta:
         model = NASShare
-        fields = ('id', 'url', 'display', 'name', 'type', 'description', 'volume')
+        fields = ('id', 'url', 'display', 'name', 'type', 'description', 'nas_volume')
 
 class NASMountSerializer(NetBoxModelSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='plugins-api:netbox_nas-api:nasmount-detail'
     )
-    share = NestedNASShareSerializer()
+    nas_share = NestedNASShareSerializer()
 
     class Meta:
         model = NASMount
-        fields = ('id', 'url', 'display', 'devices', 'virtual_machines', 'prefixes', 'local_directory', 'description', 'share')
+        fields = ('id', 'url', 'display', 'devices', 'virtual_machines', 'prefixes', 'local_directory', 'description', 'nas_share')

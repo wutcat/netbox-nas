@@ -5,22 +5,6 @@ from netbox.models import NetBoxModel
 from dcim.models import Device
 from utilities.choices import ChoiceSet
 
-#class ActionChoices(ChoiceSet):
-#    key = 'AccessListRule.action'
-#
-#    CHOICES = [
-#        ('permit', 'Permit', 'green'),
-#        ('deny', 'Deny', 'red'),
-#        ('reject', 'Reject (Reset)', 'orange'),
-#    ]
-
-#class ProtocolChoices(ChoiceSet):
-#    CHOICES = [
-#        ('tcp', 'TCP', 'blue'),
-#        ('udp', 'UDP', 'orange'),
-#        ('icmp', 'ICMP', 'purple'),
-#    ]
-
 class NASShareTypeChoices(ChoiceSet):
     CHOICES = [
         ('nfs', 'NFS', 'orange'),
@@ -36,7 +20,7 @@ class NASCluster(NetBoxModel):
 
     devices = models.ManyToManyField(
         to='dcim.Device',
-        related_name='nas_cluster_devices',
+        related_name='devices',
         blank=True,
         verbose_name='Devices'
     )
@@ -80,7 +64,7 @@ class NASVolume(NetBoxModel):
         unique_together = ('nas_cluster', 'local_directory')
 
     def __str__(self):
-        return f'{self.nas_cluster}: NAS Volume {self.local_directory}'
+        return f'{self.nas_cluster}: {self.local_directory}'
 
     def get_absolute_url(self):
         return reverse('plugins:netbox_nas:nasvolume', args=[self.pk])
@@ -111,7 +95,7 @@ class NASShare(NetBoxModel):
         unique_together = ('nas_volume', 'name')
 
     def __str__(self):
-        return f'{self.nas_volume}: NAS Share {self.name}'
+        return self.name
 
     def get_absolute_url(self):
         return reverse('plugins:netbox_nas:nasshare', args=[self.pk])
@@ -158,7 +142,7 @@ class NASMount(NetBoxModel):
         unique_together = ('nas_share', 'local_directory')
 
     def __str__(self):
-        return f'{self.nas_share}: Mount {self.local_directory}'
+        return f'{self.nas_share}: {self.local_directory}'
 
     def get_absolute_url(self):
         return reverse('plugins:netbox_nas:nasmount', args=[self.pk])

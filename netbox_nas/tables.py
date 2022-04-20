@@ -30,21 +30,30 @@ class NASShareTable(NetBoxTable):
     name = tables.Column(
         linkify=True
     )
-    volume = tables.Column(
+    nas_volume = tables.Column(
         linkify=True
     )
 
     class Meta(NetBoxTable.Meta):
         model = NASShare
-        fields = ('pk', 'id', 'name', 'type', 'volume')
-        default_columns = ('name', 'type', 'volume')
+        fields = ('pk', 'id', 'name', 'type', 'nas_volume')
+        default_columns = ('name', 'type', 'nas_volume')
 
 class NASMountTable(NetBoxTable):
-    share = tables.Column(
+    nas_share = tables.Column(
         linkify=True
+    )
+    devices = tables.ManyToManyColumn(
+        linkify_item=True
+    )
+    virtual_machines = tables.ManyToManyColumn(
+        linkify_item=True
+    )
+    prefixes = tables.ManyToManyColumn(
+        linkify_item=True
     )
 
     class Meta(NetBoxTable.Meta):
         model = NASMount
-        fields = ('pk', 'id', 'local_directory', 'share')
-        default_columns = ('local_directory', 'share')
+        fields = ('pk', 'id', 'local_directory', 'nas_share', 'devices', 'virtual_machines', 'prefixes')
+        default_columns = ('id', 'local_directory', 'nas_share', 'devices', 'virtual_machines', 'prefixes')

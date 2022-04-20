@@ -17,6 +17,22 @@ nasvolume_buttons = [
         color=ButtonColorChoices.GREEN
     )
 ]
+nasshare_buttons = [
+    PluginMenuButton(
+        link='plugins:netbox_nas:nasshare_add',
+        title='Add',
+        icon_class='mdi mdi-plus-thick',
+        color=ButtonColorChoices.GREEN
+    )
+]
+nasmount_buttons = [
+    PluginMenuButton(
+        link='plugins:netbox_nas:nasmount_add',
+        title='Add',
+        icon_class='mdi mdi-plus-thick',
+        color=ButtonColorChoices.GREEN
+    )
+]
 
 menu_items=(
     PluginMenuItem(
@@ -28,5 +44,15 @@ menu_items=(
         link='plugins:netbox_nas:nasvolume_list',
         link_text='NAS Volumes',
         buttons=nasvolume_buttons
+    ),
+    PluginMenuItem(
+        link='plugins:netbox_nas:nasshare_list',
+        link_text='NAS Shares',
+        buttons=nasshare_buttons
+    ),
+    PluginMenuItem(
+        link='plugins:netbox_nas:nasmount_list',
+        link_text='NAS Mounts',
+        buttons=nasmount_buttons
     )
 )

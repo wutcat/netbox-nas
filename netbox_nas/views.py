@@ -29,12 +29,13 @@ class NASClusterEditView(generic.ObjectEditView):
 class NASClusterDeleteView(generic.ObjectDeleteView):
     queryset = models.NASCluster.objects.all()
 
+
 # NAS Volumes
 class NASVolumeView(generic.ObjectView):
     queryset = models.NASVolume.objects.all()
 
     def get_extra_context(self, request, instance):
-        shares_table = DeviceTable(instance.shares.all())
+        shares_table = tables.NASShareTable(instance.shares.all())
         shares_table.configure(request)
 
         return {
@@ -51,3 +52,43 @@ class NASVolumeEditView(generic.ObjectEditView):
 
 class NASVolumeDeleteView(generic.ObjectDeleteView):
     queryset = models.NASVolume.objects.all()
+
+
+# NAS Shares
+class NASShareView(generic.ObjectView):
+    queryset = models.NASShare.objects.all()
+
+    def get_extra_context(self, request, instance):
+        mounts_table = tables.NASMountTable(instance.mounts.all())
+        mounts_table.configure(request)
+
+        return {
+            'mounts_table': mounts_table,
+        }
+
+class NASShareListView(generic.ObjectListView):
+    queryset = models.NASShare.objects.all()
+    table = tables.NASShareTable
+
+class NASShareEditView(generic.ObjectEditView):
+    queryset = models.NASShare.objects.all()
+    form = forms.NASShareForm
+
+class NASShareDeleteView(generic.ObjectDeleteView):
+    queryset = models.NASShare.objects.all()
+
+
+# NAS Shares
+class NASMountView(generic.ObjectView):
+    queryset = models.NASMount.objects.all()
+
+class NASMountListView(generic.ObjectListView):
+    queryset = models.NASMount.objects.all()
+    table = tables.NASMountTable
+
+class NASMountEditView(generic.ObjectEditView):
+    queryset = models.NASMount.objects.all()
+    form = forms.NASMountForm
+
+class NASMountDeleteView(generic.ObjectDeleteView):
+    queryset = models.NASMount.objects.all()

@@ -12,9 +12,9 @@ class NASVolumeViewSet(NetBoxModelViewSet):
     serializer_class = NASVolumeSerializer
 
 class NASShareViewSet(NetBoxModelViewSet):
-    queryset = models.NASShare.objects.prefetch_related('volume', 'tags')
+    queryset = models.NASShare.objects.prefetch_related('nas_volume', 'tags')
     serializer_class = NASShareSerializer
 
 class NASMountViewSet(NetBoxModelViewSet):
-    queryset = models.NASMount.objects.prefetch_related('share', 'tags')
+    queryset = models.NASMount.objects.prefetch_related('nas_share', 'tags')
     serializer_class = NASMountSerializer
