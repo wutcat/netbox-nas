@@ -10,21 +10,27 @@ class NASClusterTable(NetBoxTable):
     devices = tables.ManyToManyColumn(
         linkify_item=True
     )
+    access_ips = tables.ManyToManyColumn(
+        linkify_item=True
+    )
 
     class Meta(NetBoxTable.Meta):
         model = NASCluster
-        fields = ('pk', 'id', 'name', 'devices')
-        default_columns = ('name', 'devices')
+        fields = ('pk', 'id', 'name', 'devices', 'access_ips')
+        default_columns = ('name', 'devices', 'access_ips')
 
 class NASVolumeTable(NetBoxTable):
-    cluster = tables.Column(
+    nas_cluster = tables.Column(
+        linkify=True
+    )
+    name = tables.Column(
         linkify=True
     )
 
     class Meta(NetBoxTable.Meta):
         model = NASVolume
-        fields = ('pk', 'id', 'owner_uid', 'group_gid', 'size_gb', 'local_directory', 'nas_cluster')
-        default_columns = ('id', 'owner_uid', 'group_gid', 'size_gb', 'local_directory', 'nas_cluster')
+        fields = ('pk', 'id', 'name', 'owner', 'group', 'size_gb', 'local_directory', 'nas_cluster', 'security_style', 'base_unix_permissions', 'description')
+        default_columns = ('id', 'owner', 'group', 'size_gb', 'local_directory', 'nas_cluster')
 
 class NASShareTable(NetBoxTable):
     name = tables.Column(

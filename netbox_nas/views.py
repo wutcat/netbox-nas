@@ -1,6 +1,8 @@
 from django.db.models import Count
 from netbox.views import generic
+from ipam.tables import PrefixTable
 from dcim.tables import DeviceTable
+from virtualization.tables import VirtualMachineTable
 from . import filtersets, forms, models, tables
 
 # NAS Clusters
@@ -81,6 +83,20 @@ class NASShareDeleteView(generic.ObjectDeleteView):
 # NAS Shares
 class NASMountView(generic.ObjectView):
     queryset = models.NASMount.objects.all()
+
+    def get_extra_context(self, request, instance):
+        devices_table = DeviceTable(instance.devices.all())
+        devices_table.configure(request)
+        virtual_machines_table = VirtualMachineTable(instance.virtual_machines.all())
+        virtual_machines_table.configure(request)
+        prefixes_table = PrefixTable(instance.prefixes.all())
+        prefixes_table.configure(request)
+
+        return {
+            'devices_table': devices_table,
+            'virtual_machines_table': virtual_machines_table,
+            'prefixes_table': prefixes_table,
+        }
 
 class NASMountListView(generic.ObjectListView):
     queryset = models.NASMount.objects.all()

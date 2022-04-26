@@ -30,4 +30,28 @@
       {% include 'inc/panels/comments.html' %}
     </div>
   </div>
+  <div class="col">
+    <div class="card">
+      <h5 class="card-header">Devices</h5>
+      <div class="card-body table-responsive">
+        {% render_table devices_table %}
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card">
+      <h5 class="card-header">Virtual Machines</h5>
+      <div class="card-body table-responsive">
+        {% render_table virtual_machines_table %}
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card">
+      <h5 class="card-header">Prefixes</h5>
+      <div class="card-body table-responsive">
+        {% render_table prefixes_table %}
+      </div>
+    </div>
+  </div>
 {% endblock content %}

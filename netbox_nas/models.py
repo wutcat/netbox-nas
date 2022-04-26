@@ -2,8 +2,16 @@ from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.urls import reverse
 from netbox.models import NetBoxModel
+from ipam.models import Prefix, IPAddress
 from dcim.models import Device
 from utilities.choices import ChoiceSet
+from utilities.forms.fields import CommentField, DynamicModelChoiceField, DynamicModelMultipleChoiceField
+
+class NASVolumeSecurityStyleChoices(ChoiceSet):
+    CHOICES = [
+        ('unix', 'UNIX'),
+        ('windows', 'Windows'),
+    ]
 
 class NASShareTypeChoices(ChoiceSet):
     CHOICES = [
@@ -15,7 +23,8 @@ class NASShareTypeChoices(ChoiceSet):
 
 class NASCluster(NetBoxModel):
     name = models.CharField(
-        max_length=100
+        max_length=100,
+        unique=True
     )
 
     devices = models.ManyToManyField(
@@ -23,6 +32,13 @@ class NASCluster(NetBoxModel):
         related_name='devices',
         blank=True,
         verbose_name='Devices'
+    )
+
+    access_ips = models.ManyToManyField(
+        to='ipam.IPAddress',
+        related_name='nas_cluster_access_ips',
+        blank=True,
+        verbose_name='Access IPs'
     )
 
     description = models.CharField(
@@ -46,12 +62,33 @@ class NASVolume(NetBoxModel):
         related_name='volumes'
     )
 
-    owner_uid = models.PositiveIntegerField()
-    group_gid = models.PositiveIntegerField()
+    name = models.CharField(
+        max_length=100
+    )
+
+    owner = models.CharField(
+        max_length=100
+    )
+
+    group = models.CharField(
+        max_length=100
+    )
+
     size_gb = models.PositiveIntegerField()
 
     local_directory = models.CharField(
         max_length=200
+    )
+
+    security_style = models.CharField(
+        max_length=30,
+        choices=NASVolumeSecurityStyleChoices,
+        default='unix'
+    )
+
+    base_unix_permissions = models.CharField(
+        max_length=100,
+        default='2770'
     )
 
     description = models.CharField(
@@ -80,9 +117,19 @@ class NASShare(NetBoxModel):
         max_length=50
     )
 
+    volume_subdirectory = models.CharField(
+        max_length=200,
+        default='/'
+    )
+
     type = models.CharField(
         max_length=30,
         choices=NASShareTypeChoices
+    )
+
+    mount_options = models.CharField(
+        max_length=100,
+        blank=True
     )
 
     description = models.CharField(
@@ -130,6 +177,11 @@ class NASMount(NetBoxModel):
 
     local_directory = models.CharField(
         max_length=200
+    )
+
+    mount_options = models.CharField(
+        max_length=100,
+        blank=True
     )
 
     description = models.CharField(
