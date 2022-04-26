@@ -49,9 +49,9 @@ class Migration(migrations.Migration):
                 ('tags', taggit.managers.TaggableManager(help_text='A comma-separated list of tags.', through='extras.TaggedItem', to='extras.Tag', verbose_name='Tags')),
                 ('base_unix_permissions', models.CharField(default='2770', max_length=100)),
                 ('security_style', models.CharField(default='unix', max_length=30)),
-                ('group', models.CharField(default='walter', max_length=100)),
-                ('owner', models.CharField(default='walter', max_length=100)),
-                ('name', models.CharField(default='volXXX', max_length=100)),
+                ('group', models.CharField(max_length=100)),
+                ('owner', models.CharField(max_length=100)),
+                ('name', models.CharField(max_length=100)),
             ],
             options={
                 'ordering': ('nas_cluster', 'local_directory'),
