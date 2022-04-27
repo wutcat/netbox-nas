@@ -30,7 +30,7 @@ class NASVolumeTable(NetBoxTable):
     class Meta(NetBoxTable.Meta):
         model = NASVolume
         fields = ('pk', 'id', 'name', 'owner', 'group', 'size_gb', 'local_directory', 'nas_cluster', 'security_style', 'base_unix_permissions', 'description')
-        default_columns = ('id', 'owner', 'group', 'size_gb', 'local_directory', 'nas_cluster')
+        default_columns = ('name', 'owner', 'group', 'size_gb', 'local_directory', 'nas_cluster')
 
 class NASShareTable(NetBoxTable):
     name = tables.Column(

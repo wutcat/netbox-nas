@@ -22,7 +22,7 @@ class NestedNASClusterSerializer(WritableNestedSerializer):
 
     class Meta:
         model = NASCluster
-        fields = ('id', 'url', 'display', 'name')
+        fields = ('id', 'url', 'display', 'name', 'access_ips')
 
 class NestedNASVolumeSerializer(WritableNestedSerializer):
     url = serializers.HyperlinkedIdentityField(
