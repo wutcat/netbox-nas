@@ -6,5 +6,6 @@ class NetBoxNASConfig(PluginConfig):
     description = 'Add NAS entities to NetBox'
     version = '0.1.1'
     base_url = 'nas'
+    min_version = '3.4.0'
 
 config = NetBoxNASConfig
