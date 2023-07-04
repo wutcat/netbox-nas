@@ -5,7 +5,7 @@ from virtualization.api.serializers import NestedVirtualMachineSerializer
 from ipam.models import Prefix, IPAddress
 from dcim.models import Device
 from virtualization.models import VirtualMachine
-from netbox.api import SerializedPKRelatedField
+from netbox.api.fields import SerializedPKRelatedField
 from netbox.api.serializers import NetBoxModelSerializer, WritableNestedSerializer
 from ..models import NASCluster, NASVolume, NASShare, NASMount
 
