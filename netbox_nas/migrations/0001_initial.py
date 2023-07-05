@@ -52,7 +52,7 @@ class Migration(migrations.Migration):
                 ('group', models.CharField(max_length=100)),
                 ('owner', models.CharField(max_length=100)),
                 ('name', models.CharField(max_length=100)),
-                ('export_id', models.PositiveIntegerField(blank=True)),
+                ('export_id', models.PositiveIntegerField()),
             ],
             options={
                 'ordering': ('nas_cluster', 'local_directory'),

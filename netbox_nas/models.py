@@ -72,9 +72,7 @@ class NASVolume(NetBoxModel):
         max_length=100
     )
 
-    export_id = models.PositiveIntegerField(
-        blank=True
-    )
+    export_id = models.PositiveIntegerField()
 
     owner = models.CharField(
         max_length=100
