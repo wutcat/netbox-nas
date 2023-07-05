@@ -21,6 +21,12 @@ class NASShareTypeChoices(ChoiceSet):
         ('cephfs', 'CephFS', 'purple'),
     ]
 
+class NASShareAccessLevelChoices(ChoiceSet):
+    CHOICES = [
+        ('rw', 'Read/Write'),
+        ('ro', 'Read-Only'),
+    ]
+
 class NASCluster(NetBoxModel):
     name = models.CharField(
         max_length=100,
@@ -66,6 +72,10 @@ class NASVolume(NetBoxModel):
         max_length=100
     )
 
+    export_id = models.PositiveIntegerField(
+        blank=True
+    )
+
     owner = models.CharField(
         max_length=100
     )
@@ -98,7 +108,10 @@ class NASVolume(NetBoxModel):
 
     class Meta:
         ordering = ('nas_cluster', 'local_directory')
-        unique_together = ('nas_cluster', 'local_directory')
+        unique_together = (
+            ('nas_cluster', 'local_directory'),
+            ('nas_cluster', 'export_id'),
+        )
 
     def __str__(self):
         return f'{self.nas_cluster}: {self.local_directory}'
@@ -130,6 +143,26 @@ class NASShare(NetBoxModel):
     mount_options = models.CharField(
         max_length=100,
         blank=True
+    )
+
+    access_level = models.CharField(
+        max_length=30,
+        choices=NASShareAccessLevelChoices,
+        default='rw'
+    )
+
+    access_prefixes = models.ManyToManyField(
+        to='ipam.Prefix',
+        related_name='nas_share_access_prefixes',
+        blank=True,
+        verbose_name='Access Prefixes'
+    )
+
+    access_ips = models.ManyToManyField(
+        to='ipam.IPAddress',
+        related_name='nas_share_access_ips',
+        blank=True,
+        verbose_name='Access IPs'
     )
 
     description = models.CharField(
@@ -166,13 +199,6 @@ class NASMount(NetBoxModel):
         related_name='nas_mount_virtual_machines',
         blank=True,
         verbose_name='Virtual Machines'
-    )
-
-    prefixes = models.ManyToManyField(
-        to='ipam.Prefix',
-        related_name='nas_mount_prefixes',
-        blank=True,
-        verbose_name='Prefixes'
     )
 
     local_directory = models.CharField(
