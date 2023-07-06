@@ -4,7 +4,7 @@ import django.core.serializers.json
 from django.db import migrations, models
 import django.db.models.deletion
 import taggit.managers
-
+import utilities.json
 
 class Migration(migrations.Migration):
 
