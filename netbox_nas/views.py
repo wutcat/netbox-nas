@@ -23,6 +23,8 @@ class NASClusterView(generic.ObjectView):
 class NASClusterListView(generic.ObjectListView):
     queryset = models.NASCluster.objects.all()
     table = tables.NASClusterTable
+    filterset = filtersets.NASClusterFilterSet
+    filterset_form = forms.NASClusterFilterForm
 
 class NASClusterEditView(generic.ObjectEditView):
     queryset = models.NASCluster.objects.all()
@@ -47,6 +49,8 @@ class NASVolumeView(generic.ObjectView):
 class NASVolumeListView(generic.ObjectListView):
     queryset = models.NASVolume.objects.all()
     table = tables.NASVolumeTable
+    filterset = filtersets.NASVolumeFilterSet
+    filterset_form = forms.NASVolumeFilterForm
 
 class NASVolumeEditView(generic.ObjectEditView):
     queryset = models.NASVolume.objects.all()
@@ -77,6 +81,8 @@ class NASShareView(generic.ObjectView):
 class NASShareListView(generic.ObjectListView):
     queryset = models.NASShare.objects.all()
     table = tables.NASShareTable
+    filterset = filtersets.NASShareFilterSet
+    filterset_form = forms.NASShareFilterForm
 
 class NASShareEditView(generic.ObjectEditView):
     queryset = models.NASShare.objects.all()
@@ -104,6 +110,8 @@ class NASMountView(generic.ObjectView):
 class NASMountListView(generic.ObjectListView):
     queryset = models.NASMount.objects.all()
     table = tables.NASMountTable
+    filterset = filtersets.NASMountFilterSet
+    filterset_form = forms.NASMountFilterForm
 
 class NASMountEditView(generic.ObjectEditView):
     queryset = models.NASMount.objects.all()
