@@ -1,5 +1,5 @@
 from django.urls import path
-from netbox.views.generic import ObjectChangeLogView
+from netbox.views.generic import ObjectChangeLogView, ObjectJournalView
 from . import models, views
 
 urlpatterns = (
@@ -12,6 +12,9 @@ urlpatterns = (
     path('nascluster/<int:pk>/changelog/', ObjectChangeLogView.as_view(), name='nascluster_changelog', kwargs={
         'model': models.NASCluster
     }),
+    path('nascluster/<int:pk>/journal/', ObjectJournalView.as_view(), name='nascluster_journal', kwargs={
+        'model': models.NASCluster
+    }),
 
     # NAS Volumes
     path('nasvolume/', views.NASVolumeListView.as_view(), name='nasvolume_list'),
@@ -20,6 +23,9 @@ urlpatterns = (
     path('nasvolume/<int:pk>/edit/', views.NASVolumeEditView.as_view(), name='nasvolume_edit'),
     path('nasvolume/<int:pk>/delete/', views.NASVolumeDeleteView.as_view(), name='nasvolume_delete'),
     path('nasvolume/<int:pk>/changelog/', ObjectChangeLogView.as_view(), name='nasvolume_changelog', kwargs={
+        'model': models.NASVolume
+    }),
+    path('nasvolume/<int:pk>/journal/', ObjectJournalView.as_view(), name='nasvolume_journal', kwargs={
         'model': models.NASVolume
     }),
 
@@ -32,6 +38,9 @@ urlpatterns = (
     path('nasshare/<int:pk>/changelog/', ObjectChangeLogView.as_view(), name='nasshare_changelog', kwargs={
         'model': models.NASVolume
     }),
+    path('nasshare/<int:pk>/journal/', ObjectJournalView.as_view(), name='nasshare_journal', kwargs={
+        'model': models.NASShare
+    }),
 
     # NAS Mounts
     path('nasmount/', views.NASMountListView.as_view(), name='nasmount_list'),
@@ -40,6 +49,9 @@ urlpatterns = (
     path('nasmount/<int:pk>/edit/', views.NASMountEditView.as_view(), name='nasmount_edit'),
     path('nasmount/<int:pk>/delete/', views.NASMountDeleteView.as_view(), name='nasmount_delete'),
     path('nasmount/<int:pk>/changelog/', ObjectChangeLogView.as_view(), name='nasmount_changelog', kwargs={
+        'model': models.NASMount
+    }),
+    path('nasmount/<int:pk>/journal/', ObjectJournalView.as_view(), name='nasmount_journal', kwargs={
         'model': models.NASMount
     }),
 )
