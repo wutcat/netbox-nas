@@ -32,6 +32,22 @@
   </div>
   <div class="col">
     <div class="card">
+      <h5 class="card-header">Access Prefixes</h5>
+      <div class="card-body table-responsive">
+        {% render_table prefixes_table %}
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card">
+      <h5 class="card-header">Access IPs</h5>
+      <div class="card-body table-responsive">
+        {% render_table ips_table %}
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card">
       <h5 class="card-header">Mounts</h5>
       <div class="card-body table-responsive">
         {% render_table mounts_table %}

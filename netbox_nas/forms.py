@@ -23,12 +23,21 @@ class NASClusterForm(NetBoxModelForm):
 class NASVolumeForm(NetBoxModelForm):
     class Meta:
         model = NASVolume
-        fields = ('nas_cluster', 'name', 'owner', 'group', 'size_gb', 'local_directory', 'security_style', 'base_unix_permissions', 'description')
+        fields = ('nas_cluster', 'name', 'export_id', 'owner', 'group', 'size_gb', 'local_directory', 'security_style', 'base_unix_permissions', 'description')
 
 class NASShareForm(NetBoxModelForm):
+    access_prefixes = DynamicModelMultipleChoiceField(
+        queryset=Prefix.objects.all(),
+        required=False
+    )
+    access_ips = DynamicModelMultipleChoiceField(
+        queryset=IPAddress.objects.all(),
+        required=False
+    )
+
     class Meta:
         model = NASShare
-        fields = ('nas_volume', 'name', 'type', 'mount_options', 'description')
+        fields = ('nas_volume', 'name', 'type', 'access_level', 'access_prefixes', 'access_ips', 'mount_options', 'description')
 
 class NASMountForm(NetBoxModelForm):
     devices = DynamicModelMultipleChoiceField(
@@ -39,11 +48,7 @@ class NASMountForm(NetBoxModelForm):
         queryset=VirtualMachine.objects.all(),
         required=False
     )
-    prefixes = DynamicModelMultipleChoiceField(
-        queryset=Prefix.objects.all(),
-        required=False
-    )
 
     class Meta:
         model = NASMount
-        fields = ('nas_share', 'local_directory', 'devices', 'virtual_machines', 'prefixes', 'mount_options')
+        fields = ('nas_share', 'local_directory', 'devices', 'virtual_machines', 'mount_options')

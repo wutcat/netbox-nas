@@ -31,7 +31,7 @@ class NestedNASVolumeSerializer(WritableNestedSerializer):
 
     class Meta:
         model = NASVolume
-        fields = ('id', 'url', 'display', 'name', 'owner', 'group', 'size_gb', 'local_directory')
+        fields = ('id', 'url', 'display', 'name', 'export_id', 'owner', 'group', 'size_gb', 'local_directory')
 
 class NestedNASShareSerializer(WritableNestedSerializer):
     url = serializers.HyperlinkedIdentityField(
@@ -40,7 +40,7 @@ class NestedNASShareSerializer(WritableNestedSerializer):
 
     class Meta:
         model = NASShare
-        fields = ('id', 'url', 'display', 'name', 'type', 'description')
+        fields = ('id', 'url', 'display', 'name', 'volume_subdirectory', 'mount_options', 'type', 'access_level', 'description')
 
 class NestedNASMountSerializer(WritableNestedSerializer):
     url = serializers.HyperlinkedIdentityField(
@@ -80,7 +80,7 @@ class NASVolumeSerializer(NetBoxModelSerializer):
 
     class Meta:
         model = NASVolume
-        fields = ('id', 'url', 'display', 'name', 'owner', 'group', 'size_gb', 'local_directory', 'security_style', 'base_unix_permissions', 'description', 'nas_cluster')
+        fields = ('id', 'url', 'display', 'name', 'export_id', 'owner', 'group', 'size_gb', 'local_directory', 'security_style', 'base_unix_permissions', 'description', 'nas_cluster')
 
 class NASShareSerializer(NetBoxModelSerializer):
     url = serializers.HyperlinkedIdentityField(
@@ -90,7 +90,7 @@ class NASShareSerializer(NetBoxModelSerializer):
 
     class Meta:
         model = NASShare
-        fields = ('id', 'url', 'display', 'name', 'type', 'mount_options', 'description', 'nas_volume')
+        fields = ('id', 'url', 'display', 'name', 'type', 'mount_options', 'access_level', 'access_prefixes', 'access_ips', 'description', 'nas_volume')
 
 class NASMountSerializer(NetBoxModelSerializer):
     url = serializers.HyperlinkedIdentityField(
@@ -103,12 +103,6 @@ class NASMountSerializer(NetBoxModelSerializer):
         required=False,
         many=True
     )
-    prefixes = SerializedPKRelatedField(
-        queryset=Prefix.objects.all(),
-        serializer=NestedPrefixSerializer,
-        required=False,
-        many=True
-    )
     virtual_machines = SerializedPKRelatedField(
         queryset=VirtualMachine.objects.all(),
         serializer=NestedVirtualMachineSerializer,
@@ -118,4 +112,4 @@ class NASMountSerializer(NetBoxModelSerializer):
 
     class Meta:
         model = NASMount
-        fields = ('id', 'url', 'display', 'devices', 'virtual_machines', 'prefixes', 'local_directory', 'mount_options', 'description', 'nas_share')
+        fields = ('id', 'url', 'display', 'devices', 'virtual_machines', 'local_directory', 'mount_options', 'description', 'nas_share')

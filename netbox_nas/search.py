@@ -14,6 +14,7 @@ class NASVolumeIndex(SearchIndex):
   model = NASVolume
   fields = (
     ('name', 100),
+    ('export_id', 10),
     ('owner', 100),
     ('group', 100),
     ('local_directory', 500),

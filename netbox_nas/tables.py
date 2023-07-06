@@ -29,8 +29,8 @@ class NASVolumeTable(NetBoxTable):
 
     class Meta(NetBoxTable.Meta):
         model = NASVolume
-        fields = ('pk', 'id', 'name', 'owner', 'group', 'size_gb', 'local_directory', 'nas_cluster', 'security_style', 'base_unix_permissions', 'description')
-        default_columns = ('name', 'owner', 'group', 'size_gb', 'local_directory', 'nas_cluster')
+        fields = ('pk', 'id', 'name', 'export_id', 'owner', 'group', 'size_gb', 'local_directory', 'nas_cluster', 'security_style', 'base_unix_permissions', 'description')
+        default_columns = ('name', 'export_id', 'owner', 'group', 'size_gb', 'local_directory', 'nas_cluster')
 
 class NASShareTable(NetBoxTable):
     name = tables.Column(
@@ -39,11 +39,17 @@ class NASShareTable(NetBoxTable):
     nas_volume = tables.Column(
         linkify=True
     )
+    access_prefixes = tables.ManyToManyColumn(
+        linkify_item=True
+    )
+    access_ips = tables.ManyToManyColumn(
+        linkify_item=True
+    )
 
     class Meta(NetBoxTable.Meta):
         model = NASShare
-        fields = ('pk', 'id', 'name', 'type', 'nas_volume')
-        default_columns = ('name', 'type', 'nas_volume')
+        fields = ('pk', 'id', 'name', 'type', 'access_level', 'access_prefixes', 'access_ips' 'nas_volume')
+        default_columns = ('name', 'type', 'access_level', 'nas_volume')
 
 class NASMountTable(NetBoxTable):
     nas_share = tables.Column(
@@ -55,11 +61,8 @@ class NASMountTable(NetBoxTable):
     virtual_machines = tables.ManyToManyColumn(
         linkify_item=True
     )
-    prefixes = tables.ManyToManyColumn(
-        linkify_item=True
-    )
 
     class Meta(NetBoxTable.Meta):
         model = NASMount
-        fields = ('pk', 'id', 'local_directory', 'nas_share', 'devices', 'virtual_machines', 'prefixes')
-        default_columns = ('id', 'local_directory', 'nas_share', 'devices', 'virtual_machines', 'prefixes')
+        fields = ('pk', 'id', 'local_directory', 'nas_share', 'devices', 'virtual_machines')
+        default_columns = ('id', 'local_directory', 'nas_share', 'devices', 'virtual_machines')

@@ -1,6 +1,6 @@
 from django.db.models import Count
 from netbox.views import generic
-from ipam.tables import PrefixTable
+from ipam.tables import PrefixTable, IPAddressTable
 from dcim.tables import DeviceTable
 from virtualization.tables import VirtualMachineTable
 from . import filtersets, forms, models, tables
@@ -63,9 +63,15 @@ class NASShareView(generic.ObjectView):
     def get_extra_context(self, request, instance):
         mounts_table = tables.NASMountTable(instance.mounts.all())
         mounts_table.configure(request)
+        prefixes_table = PrefixTable(instance.access_prefixes.all())
+        prefixes_table.configure(request)
+        ips_table = IPAddressTable(instance.access_ips.all())
+        ips_table.configure(request)
 
         return {
             'mounts_table': mounts_table,
+            'prefixes_table': prefixes_table,
+            'ips_table': ips_table,
         }
 
 class NASShareListView(generic.ObjectListView):
@@ -80,7 +86,7 @@ class NASShareDeleteView(generic.ObjectDeleteView):
     queryset = models.NASShare.objects.all()
 
 
-# NAS Shares
+# NAS Mounts
 class NASMountView(generic.ObjectView):
     queryset = models.NASMount.objects.all()
 
@@ -89,13 +95,10 @@ class NASMountView(generic.ObjectView):
         devices_table.configure(request)
         virtual_machines_table = VirtualMachineTable(instance.virtual_machines.all())
         virtual_machines_table.configure(request)
-        prefixes_table = PrefixTable(instance.prefixes.all())
-        prefixes_table.configure(request)
 
         return {
             'devices_table': devices_table,
             'virtual_machines_table': virtual_machines_table,
-            'prefixes_table': prefixes_table,
         }
 
 class NASMountListView(generic.ObjectListView):
