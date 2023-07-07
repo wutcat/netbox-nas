@@ -16,10 +16,10 @@ class NASClusterForm(NetBoxModelForm):
         queryset=IPAddress.objects.all(),
         required=False
     )
-
+    comments = CommentField()
     class Meta:
         model = NASCluster
-        fields = ('name', 'description', 'devices', 'tenant', 'tags', 'access_ips')
+        fields = ('name', 'description', 'devices', 'tenant', 'tags', 'access_ips', 'comments')
 
 class NASClusterFilterForm(NetBoxModelFilterSetForm):
     model = NASCluster
@@ -37,9 +37,11 @@ class NASClusterFilterForm(NetBoxModelFilterSetForm):
     tag = TagFilterField(model)
 
 class NASVolumeForm(NetBoxModelForm):
+    comments = CommentField()
+
     class Meta:
         model = NASVolume
-        fields = ('nas_cluster', 'name', 'export_id', 'owner', 'group', 'size_gb', 'local_directory', 'security_style', 'base_unix_permissions', 'description', 'tenant', 'tags')
+        fields = ('nas_cluster', 'name', 'export_id', 'owner', 'group', 'size_gb', 'local_directory', 'security_style', 'base_unix_permissions', 'description', 'tenant', 'tags', 'comments')
 
 class NASVolumeFilterForm(NetBoxModelFilterSetForm):
     model = NASVolume
@@ -75,10 +77,11 @@ class NASShareForm(NetBoxModelForm):
         queryset=IPAddress.objects.all(),
         required=False
     )
+    comments = CommentField()
 
     class Meta:
         model = NASShare
-        fields = ('nas_volume', 'name', 'type', 'access_level', 'access_prefixes', 'access_ips', 'mount_options', 'description', 'tenant', 'tags')
+        fields = ('nas_volume', 'name', 'type', 'access_level', 'access_prefixes', 'access_ips', 'mount_options', 'description', 'tenant', 'tags', 'comments')
 
 class NASShareFilterForm(NetBoxModelFilterSetForm):
     model = NASShare
@@ -120,10 +123,11 @@ class NASMountForm(NetBoxModelForm):
         queryset=VirtualMachine.objects.all(),
         required=False
     )
+    comments = CommentField()
 
     class Meta:
         model = NASMount
-        fields = ('nas_share', 'local_directory', 'devices', 'virtual_machines', 'mount_options', 'tenant', 'tags')
+        fields = ('nas_share', 'local_directory', 'devices', 'virtual_machines', 'mount_options', 'tenant', 'tags', 'comments')
 
 class NASMountFilterForm(NetBoxModelFilterSetForm):
     model = NASMount

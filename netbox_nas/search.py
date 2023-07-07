@@ -7,6 +7,7 @@ class NASClusterIndex(SearchIndex):
   fields = (
     ('name', 100),
     ('description', 500),
+    ('comments', 500),
   )
 
 @register_search
@@ -19,6 +20,7 @@ class NASVolumeIndex(SearchIndex):
     ('group', 100),
     ('local_directory', 500),
     ('description', 500),
+    ('comments', 500),
   )
 
 @register_search
@@ -28,6 +30,7 @@ class NASShareIndex(SearchIndex):
     ('name', 100),
     ('volume_subdirectory', 500),
     ('description', 500),
+    ('comments', 500),
   )
 
 @register_search
@@ -36,4 +39,5 @@ class NASMountIndex(SearchIndex):
   fields = (
     ('local_directory', 500),
     ('description', 500),
+    ('comments', 500),
   )

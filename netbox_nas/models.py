@@ -54,6 +54,10 @@ class NASCluster(NetBoxModel):
         blank=True
     )
 
+    comments = models.TextField(
+        blank=True
+    )
+
     conacts = GenericRelation(
         to=ContactAssignment
     )
@@ -115,6 +119,10 @@ class NASVolume(NetBoxModel):
 
     description = models.CharField(
         max_length=500,
+        blank=True
+    )
+
+    comments = models.TextField(
         blank=True
     )
 
@@ -194,6 +202,10 @@ class NASShare(NetBoxModel):
         blank=True
     )
 
+    comments = models.TextField(
+        blank=True
+    )
+
     conacts = GenericRelation(
         to=ContactAssignment
     )
@@ -248,6 +260,10 @@ class NASMount(NetBoxModel):
 
     description = models.CharField(
         max_length=500,
+        blank=True
+    )
+
+    comments = models.TextField(
         blank=True
     )
 
