@@ -58,7 +58,7 @@ class NASCluster(NetBoxModel):
         blank=True
     )
 
-    conacts = GenericRelation(
+    contacts = GenericRelation(
         to=ContactAssignment
     )
 
@@ -126,7 +126,7 @@ class NASVolume(NetBoxModel):
         blank=True
     )
 
-    conacts = GenericRelation(
+    contacts = GenericRelation(
         to=ContactAssignment
     )
 
@@ -206,7 +206,7 @@ class NASShare(NetBoxModel):
         blank=True
     )
 
-    conacts = GenericRelation(
+    contacts = GenericRelation(
         to=ContactAssignment
     )
 
@@ -267,7 +267,7 @@ class NASMount(NetBoxModel):
         blank=True
     )
 
-    conacts = GenericRelation(
+    contacts = GenericRelation(
         to=ContactAssignment
     )
 

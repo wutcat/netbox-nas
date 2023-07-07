@@ -1,8 +1,10 @@
 from django.db.models import Count
 from netbox.views import generic
+from tenancy.views import ObjectContactsView
 from ipam.tables import PrefixTable, IPAddressTable
 from dcim.tables import DeviceTable
 from virtualization.tables import VirtualMachineTable
+from utilities.views import register_model_view
 from . import filtersets, forms, models, tables
 
 # NAS Clusters
