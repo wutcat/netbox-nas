@@ -1,4 +1,5 @@
 from django import forms
+from tenancy.models import Tenant
 from ipam.models import Prefix, IPAddress
 from dcim.models import Device
 from virtualization.models import VirtualMachine
@@ -18,7 +19,7 @@ class NASClusterForm(NetBoxModelForm):
 
     class Meta:
         model = NASCluster
-        fields = ('name', 'description', 'devices', 'access_ips')
+        fields = ('name', 'description', 'devices', 'tenant', 'access_ips')
 
 class NASClusterFilterForm(NetBoxModelFilterSetForm):
     model = NASCluster
@@ -29,11 +30,15 @@ class NASClusterFilterForm(NetBoxModelFilterSetForm):
         queryset=Device.objects.all(),
         required=False
     )
+    tenant = DynamicModelChoiceField(
+        queryset=Tenant.objects.all(),
+        required=False
+    )
 
 class NASVolumeForm(NetBoxModelForm):
     class Meta:
         model = NASVolume
-        fields = ('nas_cluster', 'name', 'export_id', 'owner', 'group', 'size_gb', 'local_directory', 'security_style', 'base_unix_permissions', 'description')
+        fields = ('nas_cluster', 'name', 'export_id', 'owner', 'group', 'size_gb', 'local_directory', 'security_style', 'base_unix_permissions', 'description', 'tenant')
 
 class NASVolumeFilterForm(NetBoxModelFilterSetForm):
     model = NASVolume
@@ -54,6 +59,10 @@ class NASVolumeFilterForm(NetBoxModelFilterSetForm):
         choices=NASVolumeSecurityStyleChoices,
         required=False
     )
+    tenant = DynamicModelChoiceField(
+        queryset=Tenant.objects.all(),
+        required=False
+    )
 
 class NASShareForm(NetBoxModelForm):
     access_prefixes = DynamicModelMultipleChoiceField(
@@ -67,7 +76,7 @@ class NASShareForm(NetBoxModelForm):
 
     class Meta:
         model = NASShare
-        fields = ('nas_volume', 'name', 'type', 'access_level', 'access_prefixes', 'access_ips', 'mount_options', 'description')
+        fields = ('nas_volume', 'name', 'type', 'access_level', 'access_prefixes', 'access_ips', 'mount_options', 'description', 'tenant')
 
 class NASShareFilterForm(NetBoxModelFilterSetForm):
     model = NASShare
@@ -94,6 +103,10 @@ class NASShareFilterForm(NetBoxModelFilterSetForm):
         queryset=IPAddress.objects.all(),
         required=False
     )
+    tenant = DynamicModelChoiceField(
+        queryset=Tenant.objects.all(),
+        required=False
+    )
 
 class NASMountForm(NetBoxModelForm):
     devices = DynamicModelMultipleChoiceField(
@@ -107,7 +120,7 @@ class NASMountForm(NetBoxModelForm):
 
     class Meta:
         model = NASMount
-        fields = ('nas_share', 'local_directory', 'devices', 'virtual_machines', 'mount_options')
+        fields = ('nas_share', 'local_directory', 'devices', 'virtual_machines', 'mount_options', 'tenant')
 
 class NASMountFilterForm(NetBoxModelFilterSetForm):
     model = NASMount
@@ -121,5 +134,9 @@ class NASMountFilterForm(NetBoxModelFilterSetForm):
     )
     virtual_machines = DynamicModelMultipleChoiceField(
         queryset=VirtualMachine.objects.all(),
+        required=False
+    )
+    tenant = DynamicModelChoiceField(
+        queryset=Tenant.objects.all(),
         required=False
     )

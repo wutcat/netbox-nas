@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from tenancy.api.serializers import NestedTenantSerializer
 from ipam.api.serializers import NestedPrefixSerializer, NestedIPAddressSerializer
 from dcim.api.serializers import NestedDeviceSerializer
 from virtualization.api.serializers import NestedVirtualMachineSerializer
@@ -67,30 +68,33 @@ class NASClusterSerializer(NetBoxModelSerializer):
         required=False,
         many=True
     )
+    tenant = NestedTenantSerializer()
 
     class Meta:
         model = NASCluster
-        fields = ('id', 'url', 'display', 'name', 'devices', 'access_ips', 'description')
+        fields = ('id', 'url', 'display', 'name', 'devices', 'access_ips', 'description', 'tenant')
 
 class NASVolumeSerializer(NetBoxModelSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='plugins-api:netbox_nas-api:nasvolume-detail'
     )
+    tenant = NestedTenantSerializer()
     nas_cluster = NestedNASClusterSerializer()
 
     class Meta:
         model = NASVolume
-        fields = ('id', 'url', 'display', 'name', 'export_id', 'owner', 'group', 'size_gb', 'local_directory', 'security_style', 'base_unix_permissions', 'description', 'nas_cluster')
+        fields = ('id', 'url', 'display', 'name', 'export_id', 'owner', 'group', 'size_gb', 'local_directory', 'security_style', 'base_unix_permissions', 'description', 'tenant', 'nas_cluster')
 
 class NASShareSerializer(NetBoxModelSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='plugins-api:netbox_nas-api:nasshare-detail'
     )
+    tenant = NestedTenantSerializer()
     nas_volume = NestedNASVolumeSerializer
 
     class Meta:
         model = NASShare
-        fields = ('id', 'url', 'display', 'name', 'type', 'mount_options', 'access_level', 'access_prefixes', 'access_ips', 'description', 'nas_volume')
+        fields = ('id', 'url', 'display', 'name', 'type', 'mount_options', 'access_level', 'access_prefixes', 'access_ips', 'description', 'tenant' 'nas_volume')
 
 class NASMountSerializer(NetBoxModelSerializer):
     url = serializers.HyperlinkedIdentityField(
@@ -109,7 +113,8 @@ class NASMountSerializer(NetBoxModelSerializer):
         required=False,
         many=True
     )
+    tenant = NestedTenantSerializer()
 
     class Meta:
         model = NASMount
-        fields = ('id', 'url', 'display', 'devices', 'virtual_machines', 'local_directory', 'mount_options', 'description', 'nas_share')
+        fields = ('id', 'url', 'display', 'devices', 'virtual_machines', 'local_directory', 'mount_options', 'description', 'tenant', 'nas_share')

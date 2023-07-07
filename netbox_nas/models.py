@@ -3,7 +3,7 @@ from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.urls import reverse
 from netbox.models import NetBoxModel
-from tenancy.models import ContactAssignment
+from tenancy.models import Tenant, ContactAssignment
 from ipam.models import Prefix, IPAddress
 from dcim.models import Device
 from utilities.choices import ChoiceSet
@@ -56,6 +56,14 @@ class NASCluster(NetBoxModel):
 
     conacts = GenericRelation(
         to=ContactAssignment
+    )
+
+    tenant = models.ForeignKey(
+        to=Tenant,
+        on_delete=models.PROTECT,
+        related_name='nas_clusters',
+        blank = True,
+        null = True
     )
 
     class Meta:
@@ -112,6 +120,14 @@ class NASVolume(NetBoxModel):
 
     conacts = GenericRelation(
         to=ContactAssignment
+    )
+
+    tenant = models.ForeignKey(
+        to=Tenant,
+        on_delete=models.PROTECT,
+        related_name='nas_volumes',
+        blank = True,
+        null = True
     )
 
     class Meta:
@@ -182,6 +198,14 @@ class NASShare(NetBoxModel):
         to=ContactAssignment
     )
 
+    tenant = models.ForeignKey(
+        to=Tenant,
+        on_delete=models.PROTECT,
+        related_name='nas_shares',
+        blank = True,
+        null = True
+    )
+
     class Meta:
         ordering = ('nas_volume', 'name')
         unique_together = ('nas_volume', 'name')
@@ -229,6 +253,14 @@ class NASMount(NetBoxModel):
 
     conacts = GenericRelation(
         to=ContactAssignment
+    )
+
+    tenant = models.ForeignKey(
+        to=Tenant,
+        on_delete=models.PROTECT,
+        related_name='nas_mounts',
+        blank = True,
+        null = True
     )
 
     class Meta:
