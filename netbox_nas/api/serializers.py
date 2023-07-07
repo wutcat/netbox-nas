@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from ipam.api.field_serializers import IPAddressField
 from tenancy.api.serializers import NestedTenantSerializer
 from ipam.api.serializers import NestedPrefixSerializer, NestedIPAddressSerializer
 from dcim.api.serializers import NestedDeviceSerializer
@@ -10,13 +11,23 @@ from netbox.api.fields import SerializedPKRelatedField
 from netbox.api.serializers import NetBoxModelSerializer, WritableNestedSerializer
 from ..models import NASCluster, NASVolume, NASShare, NASMount
 
+class NestedNASIPDNSSerializer(NetBoxModelSerializer):
+    url = serializers.HyperlinkedIdentityField(
+        view_name='ipam-api:ipaddress-detail'
+    )
+    address = IPAddressField()
+
+    class Meta:
+        model = IPAddress
+        fields = ('id', 'url', 'address', 'dns_name')
+
 class NestedNASClusterSerializer(WritableNestedSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='plugins-api:netbox_nas-api:nascluster-detail'
     )
     access_ips = SerializedPKRelatedField(
         queryset=IPAddress.objects.all(),
-        serializer=NestedIPAddressSerializer,
+        serializer=NestedNASIPDNSSerializer,
         required=False,
         many=True
     )
@@ -38,10 +49,22 @@ class NestedNASShareSerializer(WritableNestedSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='plugins-api:netbox_nas-api:nasshare-detail'
     )
+    access_prefixes = SerializedPKRelatedField(
+        queryset=Prefix.objects.all(),
+        serializer=NestedPrefixSerializer,
+        required=False,
+        many=True
+    )
+    access_ips = SerializedPKRelatedField(
+        queryset=IPAddress.objects.all(),
+        serializer=NestedNASIPDNSSerializer,
+        required=False,
+        many=True
+    )
 
     class Meta:
         model = NASShare
-        fields = ('id', 'url', 'display', 'name', 'volume_subdirectory', 'mount_options', 'type', 'access_level', 'description')
+        fields = ('id', 'url', 'display', 'name', 'volume_subdirectory', 'mount_options', 'type', 'access_level', 'description', 'access_prefixes', 'access_ips')
 
 class NestedNASMountSerializer(WritableNestedSerializer):
     url = serializers.HyperlinkedIdentityField(
@@ -64,7 +87,7 @@ class NASClusterSerializer(NetBoxModelSerializer):
     )
     access_ips = SerializedPKRelatedField(
         queryset=IPAddress.objects.all(),
-        serializer=NestedIPAddressSerializer,
+        serializer=NestedNASIPDNSSerializer,
         required=False,
         many=True
     )
@@ -80,10 +103,11 @@ class NASVolumeSerializer(NetBoxModelSerializer):
     )
     tenant = NestedTenantSerializer()
     nas_cluster = NestedNASClusterSerializer()
+    shares = NestedNASShareSerializer(many=True)
 
     class Meta:
         model = NASVolume
-        fields = ('id', 'url', 'display', 'name', 'export_id', 'owner', 'group', 'size_gb', 'local_directory', 'security_style', 'base_unix_permissions', 'description', 'tenant', 'tags', 'comments', 'nas_cluster')
+        fields = ('id', 'url', 'display', 'name', 'export_id', 'owner', 'group', 'size_gb', 'local_directory', 'security_style', 'base_unix_permissions', 'description', 'tenant', 'tags', 'comments', 'nas_cluster', 'shares')
 
 class NASShareSerializer(NetBoxModelSerializer):
     url = serializers.HyperlinkedIdentityField(
@@ -91,6 +115,18 @@ class NASShareSerializer(NetBoxModelSerializer):
     )
     tenant = NestedTenantSerializer()
     nas_volume = NestedNASVolumeSerializer
+    access_prefixes = SerializedPKRelatedField(
+        queryset=Prefix.objects.all(),
+        serializer=NestedPrefixSerializer,
+        required=False,
+        many=True
+    )
+    access_ips = SerializedPKRelatedField(
+        queryset=IPAddress.objects.all(),
+        serializer=NestedNASIPDNSSerializer,
+        required=False,
+        many=True
+    )
 
     class Meta:
         model = NASShare
