@@ -8,19 +8,19 @@ class NASFilterSet(NetBoxModelFilterSet):
 class NASClusterFilterSet(NASFilterSet):
     class Meta:
         model = NASCluster
-        fields = ('id', 'name', 'tenant', 'devices')
+        fields = ('id', 'name', 'tenant', 'tag', 'devices')
 
 class NASVolumeFilterSet(NASFilterSet):
     class Meta:
         model = NASVolume
-        fields = ('id', 'nas_cluster', 'name', 'local_directory', 'owner', 'group', 'security_style', 'tenant')
+        fields = ('id', 'nas_cluster', 'name', 'local_directory', 'owner', 'group', 'security_style', 'tenant', 'tag')
 
 class NASShareFilterSet(NASFilterSet):
     class Meta:
         model = NASShare
-        fields = ('id', 'nas_volume', 'name', 'type', 'access_level', 'access_prefixes', 'access_ips', 'tenant')
+        fields = ('id', 'nas_volume', 'name', 'type', 'access_level', 'access_prefixes', 'access_ips', 'tenant', 'tag')
 
 class NASMountFilterSet(NASFilterSet):
     class Meta:
         model = NASMount
-        fields = ('id', 'nas_share', 'devices', 'virtual_machines', 'local_directory', 'tenant')
+        fields = ('id', 'nas_share', 'devices', 'virtual_machines', 'local_directory', 'tenant', 'tag')

@@ -72,7 +72,7 @@ class NASClusterSerializer(NetBoxModelSerializer):
 
     class Meta:
         model = NASCluster
-        fields = ('id', 'url', 'display', 'name', 'devices', 'access_ips', 'description', 'tenant')
+        fields = ('id', 'url', 'display', 'name', 'devices', 'access_ips', 'description', 'tenant', 'tags')
 
 class NASVolumeSerializer(NetBoxModelSerializer):
     url = serializers.HyperlinkedIdentityField(
@@ -83,7 +83,7 @@ class NASVolumeSerializer(NetBoxModelSerializer):
 
     class Meta:
         model = NASVolume
-        fields = ('id', 'url', 'display', 'name', 'export_id', 'owner', 'group', 'size_gb', 'local_directory', 'security_style', 'base_unix_permissions', 'description', 'tenant', 'nas_cluster')
+        fields = ('id', 'url', 'display', 'name', 'export_id', 'owner', 'group', 'size_gb', 'local_directory', 'security_style', 'base_unix_permissions', 'description', 'tenant', 'tags', 'nas_cluster')
 
 class NASShareSerializer(NetBoxModelSerializer):
     url = serializers.HyperlinkedIdentityField(
@@ -94,7 +94,7 @@ class NASShareSerializer(NetBoxModelSerializer):
 
     class Meta:
         model = NASShare
-        fields = ('id', 'url', 'display', 'name', 'type', 'mount_options', 'access_level', 'access_prefixes', 'access_ips', 'description', 'tenant' 'nas_volume')
+        fields = ('id', 'url', 'display', 'name', 'type', 'mount_options', 'access_level', 'access_prefixes', 'access_ips', 'description', 'tenant', 'tags', 'nas_volume')
 
 class NASMountSerializer(NetBoxModelSerializer):
     url = serializers.HyperlinkedIdentityField(
@@ -117,4 +117,4 @@ class NASMountSerializer(NetBoxModelSerializer):
 
     class Meta:
         model = NASMount
-        fields = ('id', 'url', 'display', 'devices', 'virtual_machines', 'local_directory', 'mount_options', 'description', 'tenant', 'nas_share')
+        fields = ('id', 'url', 'display', 'devices', 'virtual_machines', 'local_directory', 'mount_options', 'description', 'tenant', 'tags', 'nas_share')
