@@ -32,7 +32,7 @@ class Migration(migrations.Migration):
                 ('devices', models.ManyToManyField(blank=True, related_name='devices', to='dcim.device')),
                 ('tags', taggit.managers.TaggableManager(help_text='A comma-separated list of tags.', through='extras.TaggedItem', to='extras.Tag', verbose_name='Tags')),
                 ('access_ips', models.ManyToManyField(blank=True, related_name='nas_cluster_access_ips', to='ipam.ipaddress')),
-                ('tenant', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='nas_clusters', to='tenancy.tenant'),
+                ('tenant', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='nas_clusters', to='tenancy.tenant')),
             ],
             options={
                 'ordering': ('name',),
@@ -57,7 +57,7 @@ class Migration(migrations.Migration):
                 ('owner', models.CharField(max_length=100)),
                 ('name', models.CharField(max_length=100)),
                 ('export_id', models.PositiveIntegerField()),
-                ('tenant', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='nas_volumes', to='tenancy.tenant'),
+                ('tenant', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='nas_volumes', to='tenancy.tenant')),
             ],
             options={
                 'ordering': ('nas_cluster', 'local_directory'),
@@ -82,7 +82,7 @@ class Migration(migrations.Migration):
                 ('access_level', models.CharField(default='rw', max_length=30)),
                 ('access_prefixes', models.ManyToManyField(blank=True, related_name='nas_share_access_prefixes', to='ipam.prefix')),
                 ('access_ips', models.ManyToManyField(blank=True, related_name='nas_share_access_ips', to='ipam.ipaddress')),
-                ('tenant', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='nas_shares', to='tenancy.tenant'),
+                ('tenant', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='nas_shares', to='tenancy.tenant')),
             ],
             options={
                 'ordering': ('nas_volume', 'name'),
@@ -104,7 +104,7 @@ class Migration(migrations.Migration):
                 ('tags', taggit.managers.TaggableManager(help_text='A comma-separated list of tags.', through='extras.TaggedItem', to='extras.Tag', verbose_name='Tags')),
                 ('virtual_machines', models.ManyToManyField(blank=True, related_name='nas_mount_virtual_machines', to='virtualization.virtualmachine')),
                 ('mount_options', models.CharField(blank=True, max_length=100)),
-                ('tenant', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='nas_mounts', to='tenancy.tenant'),
+                ('tenant', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='nas_mounts', to='tenancy.tenant')),
             ],
             options={
                 'ordering': ('nas_share', 'local_directory'),
