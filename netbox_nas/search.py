@@ -8,6 +8,7 @@ class NASClusterIndex(SearchIndex):
     ('name', 100),
     ('description', 500),
     ('comments', 500),
+    ('tenant', 100),
   )
 
 @register_search
@@ -21,6 +22,7 @@ class NASVolumeIndex(SearchIndex):
     ('local_directory', 500),
     ('description', 500),
     ('comments', 500),
+    ('tenant', 100),
   )
 
 @register_search
@@ -31,6 +33,7 @@ class NASShareIndex(SearchIndex):
     ('volume_subdirectory', 500),
     ('description', 500),
     ('comments', 500),
+    ('tenant', 100),
   )
 
 @register_search
@@ -40,4 +43,5 @@ class NASMountIndex(SearchIndex):
     ('local_directory', 500),
     ('description', 500),
     ('comments', 500),
+    ('tenant', 100),
   )
