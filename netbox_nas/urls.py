@@ -15,6 +15,7 @@ urlpatterns = (
     path('nascluster/<int:pk>/journal/', ObjectJournalView.as_view(), name='nascluster_journal', kwargs={
         'model': models.NASCluster
     }),
+    path('nascluster/<int:pk>/contacts/', views.NASClusterContactsView.as_view(), name='nascluster_contacts'),
 
     # NAS Volumes
     path('nasvolume/', views.NASVolumeListView.as_view(), name='nasvolume_list'),
@@ -28,6 +29,7 @@ urlpatterns = (
     path('nasvolume/<int:pk>/journal/', ObjectJournalView.as_view(), name='nasvolume_journal', kwargs={
         'model': models.NASVolume
     }),
+    path('nasvolume/<int:pk>/contacts/', views.NASVolumeContactsView.as_view(), name='nasvolume_contacts'),
 
     # NAS Shares
     path('nasshare/', views.NASShareListView.as_view(), name='nasshare_list'),
@@ -41,6 +43,7 @@ urlpatterns = (
     path('nasshare/<int:pk>/journal/', ObjectJournalView.as_view(), name='nasshare_journal', kwargs={
         'model': models.NASShare
     }),
+    path('nasshare/<int:pk>/contacts/', views.NASShareContactsView.as_view(), name='nasshare_contacts'),
 
     # NAS Mounts
     path('nasmount/', views.NASMountListView.as_view(), name='nasmount_list'),
@@ -54,4 +57,5 @@ urlpatterns = (
     path('nasmount/<int:pk>/journal/', ObjectJournalView.as_view(), name='nasmount_journal', kwargs={
         'model': models.NASMount
     }),
+    path('nasmount/<int:pk>/contacts/', views.NASMountContactsView.as_view(), name='nasmount_contacts'),
 )

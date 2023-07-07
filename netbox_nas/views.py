@@ -20,6 +20,10 @@ class NASClusterView(generic.ObjectView):
             'devices_table': devices_table,
         }
 
+@register_model_view(models.NASCluster, 'contacts')
+class NASClusterContactsView(ObjectContactsView):
+    queryset = models.NASCluster.objects.all()
+
 class NASClusterListView(generic.ObjectListView):
     queryset = models.NASCluster.objects.all()
     table = tables.NASClusterTable
@@ -45,6 +49,10 @@ class NASVolumeView(generic.ObjectView):
         return {
             'shares_table': shares_table,
         }
+
+@register_model_view(models.NASVolume, 'contacts')
+class NASVolumeContactsView(ObjectContactsView):
+    queryset = models.NASVolume.objects.all()
 
 class NASVolumeListView(generic.ObjectListView):
     queryset = models.NASVolume.objects.all()
@@ -78,6 +86,10 @@ class NASShareView(generic.ObjectView):
             'ips_table': ips_table,
         }
 
+@register_model_view(models.NASShare, 'contacts')
+class NASShareContactsView(ObjectContactsView):
+    queryset = models.NASShare.objects.all()
+
 class NASShareListView(generic.ObjectListView):
     queryset = models.NASShare.objects.all()
     table = tables.NASShareTable
@@ -106,6 +118,10 @@ class NASMountView(generic.ObjectView):
             'devices_table': devices_table,
             'virtual_machines_table': virtual_machines_table,
         }
+
+@register_model_view(models.NASMount, 'contacts')
+class NASMountContactsView(ObjectContactsView):
+    queryset = models.NASMount.objects.all()
 
 class NASMountListView(generic.ObjectListView):
     queryset = models.NASMount.objects.all()
