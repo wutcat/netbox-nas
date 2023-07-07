@@ -9,6 +9,12 @@
         <div class="card-body">
           <table class="table table-hover attr-table">
             <tr>
+              <th scope="row">Name</th>
+              <td>
+                {{ object.name }}
+              </td>
+            </tr>
+            <tr>
               <th scope="row">Tenant</th>
               <td>
                 {% if object.tenant.group %}
@@ -20,6 +26,30 @@
             <tr>
               <th scope="row">Cluster</th>
               <td>{{ object.nas_cluster | linkify }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Export ID</th>
+              <td>{{ object.export_id }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Owner</th>
+              <td>{{ object.owner }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Group</th>
+              <td>{{ object.group }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Size (GB)</th>
+              <td>{{ object.size_gb }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Security Style</th>
+              <td>{{ object.security_style }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Base UNIX Permissions</th>
+              <td>{{ object.base_unix_permissions }}</td>
             </tr>
             <tr>
               <th scope="row">Local Directory</th>

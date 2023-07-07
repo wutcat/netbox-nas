@@ -81,7 +81,7 @@ class NASShareForm(NetBoxModelForm):
 
     class Meta:
         model = NASShare
-        fields = ('nas_volume', 'name', 'type', 'access_level', 'access_prefixes', 'access_ips', 'mount_options', 'description', 'tenant', 'tags', 'comments')
+        fields = ('nas_volume', 'name', 'volume_subdirectory', 'type', 'access_level', 'access_prefixes', 'access_ips', 'mount_options', 'description', 'tenant', 'tags', 'comments')
 
 class NASShareFilterForm(NetBoxModelFilterSetForm):
     model = NASShare
@@ -127,7 +127,7 @@ class NASMountForm(NetBoxModelForm):
 
     class Meta:
         model = NASMount
-        fields = ('nas_share', 'local_directory', 'devices', 'virtual_machines', 'mount_options', 'tenant', 'tags', 'comments')
+        fields = ('nas_share', 'local_directory', 'devices', 'virtual_machines', 'mount_options', 'description', 'tenant', 'tags', 'comments')
 
 class NASMountFilterForm(NetBoxModelFilterSetForm):
     model = NASMount

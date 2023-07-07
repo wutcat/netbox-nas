@@ -16,10 +16,13 @@ class NASClusterView(generic.ObjectView):
         volumes_table.configure(request)
         devices_table = DeviceTable(instance.devices.all())
         devices_table.configure(request)
+        access_ips_table = IPAddressTable(instance.access_ips.all())
+        access_ips_table.configure(request)
 
         return {
             'volumes_table': volumes_table,
             'devices_table': devices_table,
+            'access_ips_table': access_ips_table,
         }
 
 @register_model_view(models.NASCluster, 'contacts')
