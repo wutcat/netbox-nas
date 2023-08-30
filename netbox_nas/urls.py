@@ -38,7 +38,7 @@ urlpatterns = (
     path('nasshare/<int:pk>/edit/', views.NASShareEditView.as_view(), name='nasshare_edit'),
     path('nasshare/<int:pk>/delete/', views.NASShareDeleteView.as_view(), name='nasshare_delete'),
     path('nasshare/<int:pk>/changelog/', ObjectChangeLogView.as_view(), name='nasshare_changelog', kwargs={
-        'model': models.NASVolume
+        'model': models.NASShare
     }),
     path('nasshare/<int:pk>/journal/', ObjectJournalView.as_view(), name='nasshare_journal', kwargs={
         'model': models.NASShare
