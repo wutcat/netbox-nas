@@ -1,8 +1,8 @@
-from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.urls import reverse
 from netbox.models import NetBoxModel
+from netbox.models.features import ContactsMixin
 from tenancy.models import Tenant, ContactAssignment
 from ipam.models import Prefix, IPAddress
 from dcim.models import Device
@@ -29,7 +29,7 @@ class NASShareAccessLevelChoices(ChoiceSet):
         ('ro', 'Read-Only'),
     ]
 
-class NASCluster(NetBoxModel):
+class NASCluster(ContactsMixin, NetBoxModel):
     name = models.CharField(
         max_length=100,
         unique=True
@@ -58,10 +58,6 @@ class NASCluster(NetBoxModel):
         blank=True
     )
 
-    contacts = GenericRelation(
-        to=ContactAssignment
-    )
-
     tenant = models.ForeignKey(
         to=Tenant,
         on_delete=models.PROTECT,
@@ -79,7 +75,7 @@ class NASCluster(NetBoxModel):
     def get_absolute_url(self):
         return reverse('plugins:netbox_nas:nascluster', args=[self.pk])
 
-class NASVolume(NetBoxModel):
+class NASVolume(ContactsMixin, NetBoxModel):
     nas_cluster = models.ForeignKey(
         to=NASCluster,
         on_delete=models.PROTECT,
@@ -126,10 +122,6 @@ class NASVolume(NetBoxModel):
         blank=True
     )
 
-    contacts = GenericRelation(
-        to=ContactAssignment
-    )
-
     tenant = models.ForeignKey(
         to=Tenant,
         on_delete=models.PROTECT,
@@ -151,7 +143,7 @@ class NASVolume(NetBoxModel):
     def get_absolute_url(self):
         return reverse('plugins:netbox_nas:nasvolume', args=[self.pk])
 
-class NASShare(NetBoxModel):
+class NASShare(ContactsMixin, NetBoxModel):
     nas_volume = models.ForeignKey(
         to=NASVolume,
         on_delete=models.PROTECT,
@@ -206,10 +198,6 @@ class NASShare(NetBoxModel):
         blank=True
     )
 
-    contacts = GenericRelation(
-        to=ContactAssignment
-    )
-
     tenant = models.ForeignKey(
         to=Tenant,
         on_delete=models.PROTECT,
@@ -228,7 +216,7 @@ class NASShare(NetBoxModel):
     def get_absolute_url(self):
         return reverse('plugins:netbox_nas:nasshare', args=[self.pk])
 
-class NASMount(NetBoxModel):
+class NASMount(ContactsMixin, NetBoxModel):
     nas_share = models.ForeignKey(
         to=NASShare,
         on_delete=models.PROTECT,
@@ -265,10 +253,6 @@ class NASMount(NetBoxModel):
 
     comments = models.TextField(
         blank=True
-    )
-
-    contacts = GenericRelation(
-        to=ContactAssignment
     )
 
     tenant = models.ForeignKey(

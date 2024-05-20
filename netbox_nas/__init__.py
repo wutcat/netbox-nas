@@ -1,4 +1,4 @@
-from extras.plugins import PluginConfig
+from netbox.plugins import PluginConfig
 
 class NetBoxNASConfig(PluginConfig):
     name = 'netbox_nas'
