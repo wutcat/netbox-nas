@@ -100,7 +100,7 @@ class NASClusterSerializer(NetBoxModelSerializer):
 
     class Meta:
         model = NASCluster
-        fields = ('id', 'url', 'display', 'name', 'devices', 'access_ips', 'description', 'tenant', 'tags', 'comments')
+        fields = ('id', 'url', 'display', 'name', 'devices', 'access_ips', 'description', 'tenant', 'tags', 'custom_fields', 'created', 'last_updated', 'comments')
 
 class NASVolumeSerializer(NetBoxModelSerializer):
     url = serializers.HyperlinkedIdentityField(
@@ -117,7 +117,7 @@ class NASVolumeSerializer(NetBoxModelSerializer):
 
     class Meta:
         model = NASVolume
-        fields = ('id', 'url', 'display', 'name', 'export_id', 'owner', 'group', 'size_gb', 'local_directory', 'security_style', 'base_unix_permissions', 'description', 'tenant', 'tags', 'comments', 'nas_cluster', 'shares')
+        fields = ('id', 'url', 'display', 'name', 'export_id', 'owner', 'group', 'size_gb', 'local_directory', 'security_style', 'base_unix_permissions', 'description', 'tenant', 'tags', 'custom_fields', 'created', 'last_updated', 'comments', 'nas_cluster', 'shares')
 
 class NASShareSerializer(NetBoxModelSerializer):
     url = serializers.HyperlinkedIdentityField(
@@ -145,7 +145,7 @@ class NASShareSerializer(NetBoxModelSerializer):
 
     class Meta:
         model = NASShare
-        fields = ('id', 'url', 'display', 'name', 'type', 'volume_subdirectory', 'mount_options', 'access_level', 'access_prefixes', 'access_ips', 'description', 'tenant', 'tags', 'comments', 'nas_volume')
+        fields = ('id', 'url', 'display', 'name', 'type', 'volume_subdirectory', 'mount_options', 'access_level', 'access_prefixes', 'access_ips', 'description', 'tenant', 'tags', 'custom_fields', 'created', 'last_updated', 'comments', 'nas_volume')
 
 class NASMountSerializer(NetBoxModelSerializer):
     url = serializers.HyperlinkedIdentityField(
@@ -173,4 +173,4 @@ class NASMountSerializer(NetBoxModelSerializer):
 
     class Meta:
         model = NASMount
-        fields = ('id', 'url', 'display', 'devices', 'virtual_machines', 'local_directory', 'mount_options', 'description', 'tenant', 'tags', 'comments', 'nas_share')
+        fields = ('id', 'url', 'display', 'devices', 'virtual_machines', 'local_directory', 'mount_options', 'description', 'tenant', 'tags', 'custom_fields', 'created', 'last_updated', 'comments', 'nas_share')
