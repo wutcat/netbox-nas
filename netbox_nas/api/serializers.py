@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from ipam.api.field_serializers import IPAddressField
-from tenancy.api.serializers import NestedTenantSerializer
+from tenancy.api.serializers import TenantSerializer
 from ipam.api.serializers import NestedPrefixSerializer, NestedIPAddressSerializer
 from dcim.api.serializers import NestedDeviceSerializer
 from virtualization.api.serializers import NestedVirtualMachineSerializer
@@ -91,7 +91,12 @@ class NASClusterSerializer(NetBoxModelSerializer):
         required=False,
         many=True
     )
-    tenant = NestedTenantSerializer()
+    tenant = TenantSerializer(
+        nested=True,
+        required=False,
+        allow_null=True,
+        default=None
+    )
 
     class Meta:
         model = NASCluster
@@ -101,9 +106,14 @@ class NASVolumeSerializer(NetBoxModelSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='plugins-api:netbox_nas-api:nasvolume-detail'
     )
-    tenant = NestedTenantSerializer()
-    nas_cluster = NestedNASClusterSerializer()
-    shares = NestedNASShareSerializer(many=True)
+    tenant = TenantSerializer(
+        nested=True,
+        required=False,
+        allow_null=True,
+        default=None
+    )
+    nas_cluster = NestedNASClusterSerializer(required=True, allow_null=False)
+    shares = NestedNASShareSerializer(many=True, read_only=True)
 
     class Meta:
         model = NASVolume
@@ -113,8 +123,13 @@ class NASShareSerializer(NetBoxModelSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='plugins-api:netbox_nas-api:nasshare-detail'
     )
-    tenant = NestedTenantSerializer()
-    nas_volume = NestedNASVolumeSerializer
+    tenant = TenantSerializer(
+        nested=True,
+        required=False,
+        allow_null=True,
+        default=None
+    )
+    nas_volume = NestedNASVolumeSerializer(required=True, allow_null=False)
     access_prefixes = SerializedPKRelatedField(
         queryset=Prefix.objects.all(),
         serializer=NestedPrefixSerializer,
@@ -130,13 +145,13 @@ class NASShareSerializer(NetBoxModelSerializer):
 
     class Meta:
         model = NASShare
-        fields = ('id', 'url', 'display', 'name', 'type', 'mount_options', 'access_level', 'access_prefixes', 'access_ips', 'description', 'tenant', 'tags', 'comments', 'nas_volume')
+        fields = ('id', 'url', 'display', 'name', 'type', 'volume_subdirectory', 'mount_options', 'access_level', 'access_prefixes', 'access_ips', 'description', 'tenant', 'tags', 'comments', 'nas_volume')
 
 class NASMountSerializer(NetBoxModelSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='plugins-api:netbox_nas-api:nasmount-detail'
     )
-    nas_share = NestedNASShareSerializer()
+    nas_share = NestedNASShareSerializer(required=True, allow_null=False)
     devices = SerializedPKRelatedField(
         queryset=Device.objects.all(),
         serializer=NestedDeviceSerializer,
@@ -149,7 +164,12 @@ class NASMountSerializer(NetBoxModelSerializer):
         required=False,
         many=True
     )
-    tenant = NestedTenantSerializer()
+    tenant = TenantSerializer(
+        nested=True,
+        required=False,
+        allow_null=True,
+        default=None
+    )
 
     class Meta:
         model = NASMount
